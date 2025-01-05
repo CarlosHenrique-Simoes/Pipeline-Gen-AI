@@ -1,7 +1,5 @@
-from datetime import datetime, time
+from datetime import datetime, time  # noqa: D100
 
-import numpy as np
-import pandas as pd
 import streamlit as st
 from pydantic import ValidationError
 
@@ -9,7 +7,7 @@ from contrato import Vendas
 from database import salvar_no_postgres
 
 
-def main():
+def main() -> None:
 
     st.title("Sistema de CRM e Vendas ZapFlow")
     email = st.text_input("Email do Vendedor:")
