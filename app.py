@@ -6,6 +6,7 @@ import streamlit as st
 from pydantic import ValidationError
 
 from contrato import Vendas
+from database import salvar_no_postgres
 
 
 def main():
@@ -34,6 +35,7 @@ def main():
             )
 
             st.write(venda)
+            salvar_no_postgres(venda)
         except ValidationError as e:
             st.error(f"Deu erro: {e}")
 
