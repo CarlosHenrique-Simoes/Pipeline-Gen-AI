@@ -50,37 +50,115 @@ def main_page():
     # Criando o formulário com vários tipos de entradas
     with st.form("my_form"):
         # Campo dropdown (selectbox)
-        pol = st.selectbox(
+        port_of_loading = st.selectbox(
             "Selecione a Origem",
-            ["", "CNSHA", "CNSZX", "CNTAO", "KRPUS", "THLCH", "VNSGN", "VNHPH"],
+            [
+                "",
+                "CNSHA",
+                "CNSZX",
+                "CNTAO",
+                "KRPUS",
+                "THLCH", 
+                "VNSGN",
+                "VNHPH",
+            ],
             key="pol",
         )
+        place_of_receipt = port_of_loading
+
         # Campo de texto
-        house_bl = st.text_input("Informe o House BL", key="house_bl")
-        master_bl = st.text_input("Informe o Master BL", key="master_bl")
+        house_bl = st.text_input(
+            "Informe o House BL",
+            key="house_bl",
+        )
+        master_bl = st.text_input(
+            "Informe o Master BL",
+            key="master_bl",
+        )
+        port_of_discharge = st.text_input(
+            "Informe o Porto de Destino",
+            key="port_of_discharge",
+        )
+        vessel = st.text_input(
+            "Informe o Navio de Origem",
+            key="vessel",
+        )
+        viagem = st.text_input(
+            "Informe a Viagem",
+            key="viagem",
+        )
+        quantidade_de_embalagem = st.number_input(
+            "Quantidade de Embalagem",
+            min_value=0.0,
+            format="%.1f",
+            key="quantidade_de_embalagem",
+        )
+        tipo_de_embalagem = st.text_input(
+            "Tipo de Embalagem",
+            key="tipo_de_embalagem",
+        )
+        peso_bruto = st.number_input(
+            "Informe o Peso Bruto",
+            min_value=0.0,
+            format="%.3f",
+            key="peso_bruto",
+        )
+        cubagem = st.number_input(
+            "Informe a Cubagem do House",
+            min_value=0.0,
+            format="%.3f",
+            key="cubagem",
+        )
+        frete = st.text_input(
+            "Informe o Frete",
+            min_value=0.0,
+            format="%.2f",
+            key="frete",
+        )
 
         # Campo de data
-        onboard_date = st.date_input("Onboard date", key="onboard_date")
-        issue_date = st.date_input("Issue date", key="issue_date")
-
-        # Caixa de seleção (checkbox)
-        accept_terms = st.checkbox(
-            "Eu aceito os termos e condições", key="accept_terms"
+        onboard_date = st.date_input(
+            "Onboard date",
+            key="onboard_date",
         )
+        issue_date = st.date_input("Issue date", key="issue_date")
 
         # Botão para enviar o formulário
         submit_button = st.form_submit_button("Enviar")
 
     # Ação após o envio do formulário
     if submit_button:
-        if house_bl == "" or master_bl == "" or onboard_date == "" or issue_date == "":
+        if (
+            house_bl == ""
+            or master_bl == ""
+            or onboard_date == ""
+            or issue_date == ""
+            or place_of_receipt == ""
+            or port_of_discharge == ""
+            or vessel == ""
+            or viagem == ""
+            or quantidade_de_embalagem == ""
+            or tipo_de_embalagem == ""
+            or peso_bruto == ""
+            or cubagem == ""
+            or frete == ""
+        ):
             st.error("Por favor, preencha todos os campos!")
-        elif not accept_terms:
-            st.error("Por favor, aceite os termos e condições.")
         else:
-            st.success(f"Obrigado, {name}! Seus dados foram enviados com sucesso.")
-            st.write(f"Data de Nascimento: {birthdate}")
-            st.write(f"Cor Favorita: {favorite_color}")
+            st.success(f"Dados enviados com sucesso.")
+            st.write(f"Origem: {port_of_loading}")
+            st.write(f"House BL: {house_bl}")
+            st.write(f"Master BL: {master_bl}")
+            st.write(f"Local de Recebimento: {place_of_receipt}")
+            st.write(f"Porto de Destino: {port_of_discharge}")
+            st.write(f"Navio de Origem: {vessel}")
+            st.write(f"Viagem: {viagem}")
+            st.write(f"Quantidade de Embalagem: {quantidade_de_embalagem}")
+            st.write(f"Tipo de Embalagem: {tipo_de_embalagem}")
+            st.write(f"Peso Bruto: {peso_bruto}")
+            st.write(f"Cubagem: {cubagem}")
+            st.write(f"Data de embarque: {onboard_date}")
+            st.write(f"Data de emissão: {issue_date}")
 
     # Botão para sair
     if st.button("Sair", key="logout"):
@@ -97,13 +175,13 @@ def login_page():
     username = st.text_input("Nome de usuário", key="login_username")
     password = st.text_input("Senha", type="password", key="login_password")
 
-    coluna1, coluna2, coluna3 = st.columns([1, 3.5, 1], gap="large")
+    coluna1, coluna2, coluna3 = st.columns([1.5, 3.5, 1.2], gap="large")
     with coluna1:
         if st.button("Login", key="login_button"):
             if authenticate(username, password):
                 st.session_state.user_id = username
                 st.success(f"Bem-vindo, {username}! Login efetuado com sucesso.")
-                time.sleep(1.6)
+                time.sleep(0.8)
                 st.session_state.page = "main"  # Muda para a página principal
                 rerun()  # Faz o rerun para atualizar a página
             elif username not in st.session_state.user_credentials:
@@ -139,10 +217,8 @@ def register_page():
             st.success(
                 f"Usuário {new_username} registrado com sucesso! Redirecionando para o login..."
             )
-            time.sleep(1.6)
-            st.session_state.page = (
-                "home"  # Redireciona para o login após o cadastro
-            )
+            time.sleep(0.8)
+            st.session_state.page = "home"  # Redireciona para o login após o cadastro
             rerun()  # Faz o rerun para atualizar a página
 
 
